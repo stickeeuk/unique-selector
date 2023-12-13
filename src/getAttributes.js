@@ -29,7 +29,7 @@ export function getAttributes( el, attributesToIgnore = ['id', 'class', 'length'
   {
     if ( ! isIgnored( next.nodeName ) )
     {
-      sum.push( `[${next.nodeName}="${next.value}"]` );
+      sum.push( `[${next.nodeName}="${CSS.escape(next.value)}"]` );
     }
     return sum;
   }, [] );
