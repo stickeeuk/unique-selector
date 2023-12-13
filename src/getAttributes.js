@@ -1,7 +1,23 @@
 /**
+ * Checks if the attribute is in the ignore list
+ * @param  { String } attribute name
+ * @param  { Array | RegExp } array of attributes to ignore or regex
+ * @return { Boolean }
+ */
+function isIgnored( attributeName, attributesToIgnore )
+{
+  if ( Array.isArray( attributesToIgnore ) )
+  {
+    return attributesToIgnore.indexOf( attributeName ) > -1;
+  }
+
+  return attributeName.test( attributesToIgnore );
+}
+
+/**
  * Returns the Attribute selectors of the element
  * @param  { DOM Element } element
- * @param  { Array } array of attributes to ignore
+ * @param  { Array | RegExp } array of attributes to ignore or regex
  * @return { Array }
  */
 export function getAttributes( el, attributesToIgnore = ['id', 'class', 'length'] )
@@ -11,7 +27,7 @@ export function getAttributes( el, attributesToIgnore = ['id', 'class', 'length'
 
   return attrs.reduce( ( sum, next ) =>
   {
-    if ( ! ( attributesToIgnore.indexOf( next.nodeName ) > -1 ) )
+    if ( ! isIgnored( next.nodeName ) )
     {
       sum.push( `[${next.nodeName}="${next.value}"]` );
     }
